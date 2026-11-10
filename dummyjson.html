@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Data</title>
+</head>
+<body>
+    <h1>Product Data</h1>
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody id="tabledata">
+            <!-- Data will be injected here -->
+        </tbody>
+    </table>
+
+    <script>
+        async function getdata() {
+            // 1. Fetch the data from the API
+            var res = await fetch("https://dummyjson.com/products");
+            
+            // 2. Parse the response into JSON format
+            var data = await res.json(); 
+            
+            var table = "";
+            
+            // 3. FIX: Loop through 'data.products' instead of 'res.products'
+            data.products.forEach(function(item) {
+                // 4. FIX: Use lowercase properties matching the API response
+                table += `
+                    <tr>
+                        <td>${item.id}</td>
+                        <td>${item.title}</td>
+                        <td>$${item.price}</td>
+                        <td>${item.category}</td>
+                        <td>${item.rating}</td>
+                    </tr>
+                `;
+            });
+            
+            document.getElementById("tabledata").innerHTML = table;
+        }
+        
+        getdata();
+    </script>
+</body>
+</html>
